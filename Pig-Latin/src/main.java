@@ -25,10 +25,9 @@ public class main {
 		for(int j=0; j<input.length(); j++) {
 			for (int i= 0; i<vowels.length; i++) {
 				if (input.charAt(j) == vowels[i]) {
-					String part1= input.substring(j, input.length());
-					String part2= input.substring(0, j);
-					String converted = part1 + part2 + "ay";
-					return converted;
+					String postVowel= input.substring(j, input.length());
+					String subVowel= input.substring(0, j);
+					return postVowel + subVowel + "ay";
 				}
 			}
 		}
