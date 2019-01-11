@@ -43,8 +43,9 @@ public class main {
 			input = reader.next().toLowerCase();
 			isValidInput = checkInput(input, board);
 		}while(!isValidInput);
-			updateLog(playerLetter, input);
-			checkWin(playerLetter, board);
+		
+		updateBoard(playerLetter, input);
+		checkWin(playerLetter, board);
 	}
 	
 	public static boolean checkInput(String input, String[][] board) {
@@ -86,7 +87,7 @@ public class main {
 		}
 	}
 
-	public static void updateLog(String playerLetter, String position) {
+	public static void updateBoard(String playerLetter, String position) {
 		int row = 0, col;
 		String rowString = position.substring(0, 1);
 		String colString = position.substring(1, 2);
