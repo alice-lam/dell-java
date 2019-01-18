@@ -12,7 +12,7 @@ public class main {
 
 	public static void main(String[] args) {
 
-		System.out.println("Welcome to the Gradebook system. What would you like to do?");
+		System.out.println("Welcome to the Gradebook system.");
 
 		while (run) {
 			runGradebook();
@@ -23,16 +23,19 @@ public class main {
 	public static void runGradebook() {
 		String input;
 		boolean isValid = true;
+		//keep running until a valid input is entered
 		do {
-			System.out.println("Please select one of the following options:");
+			System.out.println("Gradebook Menu ");
 			System.out.println("1. Input new grades for a student");
 			System.out.println("2. View grade average for a student(s)");
 			System.out.println("3. Exit Program");
+			System.out.print("Please select one of the above options: ");
 			input = reader.next();
 			isValid = parseInput(input);
 		} while (!isValid);
 	}
-
+	
+	//Takes a string input and determines which function to proceed to
 	public static boolean parseInput(String inputWord) {
 		if (inputWord.equals("1")) {
 			addGrades();
@@ -51,11 +54,12 @@ public class main {
 			return false;
 		}
 	}
-
+	
+	//Takes student name and stores inputted grades and calculated average into hashmaps
 	public static void addGrades() {
-		System.out.println("Please enter the name of the student: ");
+		System.out.print("Please enter the name of the student: ");
 		String name = reader.next();
-		System.out.println("Please enter the grades for " + name + ", with a comma separating each number: ");
+		System.out.print("Please enter the grades for " + name + ", with a comma separating each number: ");
 		String grades = reader.next();
 		double average = calculateAverage(grades);
 		studentGradebook.put(name, grades);
@@ -63,7 +67,8 @@ public class main {
 		System.out.println("Grades inputted, returning to main menu.");
 		System.out.println();
 	}
-
+	
+	//Takes string input, converts entries into integers, calculates, and returns average
 	public static double calculateAverage(String numberInput) {
 		double temp = 0;
 		String[] stringNumbers = numberInput.split(",");
@@ -73,12 +78,13 @@ public class main {
 		temp = temp / stringNumbers.length;
 		return temp;
 	}
-
+	
+	//Asks user for keyname, validates, and returns average from the input keyname.
 	public static void returnAverage() {
 		boolean nameExists = true;
 		String name;
 		do {
-			System.out.println("Please enter the name of the student you would like to retrieve grades for, or type 'ALL' for all students: ");
+			System.out.print("Please enter the name of the student you would like to retrieve grades for, or type 'ALL' for all students: ");
 			name = reader.next();
 			if (name.equals("ALL")) {
 				printStudentsGrades();
@@ -94,7 +100,8 @@ public class main {
 		System.out.println();
 		return;
 	}
-
+	
+	//printStudentGrades prints out all students name and Average
 	public static void printStudentsGrades() {
 		Iterator it = studentReportCard.entrySet().iterator();
 		while (it.hasNext()) {
