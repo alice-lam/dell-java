@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class main {
 	static boolean noWinner = true;
+	static int counter= 0;
 	static String playerLetter = "";
 	//create a new board[rows][cols]
 	public static String[][] board = new String[3][3];
@@ -84,6 +85,12 @@ public class main {
 			((board[0][0] == player)&&(board[1][1] == player)&&(board[2][2] == player))||
 			((board[0][2] == player)&&(board[1][1] == player)&&(board[2][0] == player))){
 			noWinner = false;
+		}
+		counter += 1;
+		if (counter == 9) {
+			displayBoard();
+			System.out.println("It's a draw!");
+			System.exit(0);
 		}
 	}
 
