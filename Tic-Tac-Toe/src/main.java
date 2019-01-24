@@ -85,6 +85,7 @@ public class main {
 			((board[0][0] == player)&&(board[1][1] == player)&&(board[2][2] == player))||
 			((board[0][2] == player)&&(board[1][1] == player)&&(board[2][0] == player))){
 			noWinner = false;
+			return;
 		}
 		counter += 1;
 		if (counter == 9) {
