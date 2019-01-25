@@ -16,7 +16,8 @@ public class main {
 		String c = getWinner(userInput, compInput);
 		System.out.println(c);
 	}
-
+	
+	//reads user input until a valid weapon (rock, paper, scissors) is entered
 	public static String getUserWeapon() {
 		Scanner reader = new Scanner(System.in);
 		String input;
@@ -32,13 +33,15 @@ public class main {
 		return input;
 	}
 	
+	//Throws a exception if a valid weapon is not entered
 	public static boolean checkWeapon(String input) {
 		if (!(input.equals("rock") || input.equals("paper") || input.equals("scissors"))){
 			throw new IllegalArgumentException();
 		}
 		return true;
 	}
-
+	
+	//Generates a random number and selects a random weapon for computer based off of number
 	public static String getComputerWeapon() {
 		String weapon = "";
 		Random r = new Random();
@@ -56,7 +59,8 @@ public class main {
 		}
 		return weapon;
 	}
-
+	
+	//Checks for Win//Draw cases
 	public static String getWinner(String weapon1, String weapon2) {
 		if ((weapon1.equals("rock") && weapon2.equals("scissors"))
 				|| (weapon1.equals("paper") && weapon2.equals("rock"))
