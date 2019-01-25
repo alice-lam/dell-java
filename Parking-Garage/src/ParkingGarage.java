@@ -59,7 +59,7 @@ public class ParkingGarage {
 				System.out.println("Stall " + i + " is empty.");	
 			}
 			else{
-				System.out.println("Stall " + i + ": " + parkingSpots[i].color + " " + parkingSpots[i].make + " " + parkingSpots[i].model + ", plate #" + parkingSpots[i].plate);
+				System.out.println("Stall " + i + ": " + parkingSpots[i].getColor() + " " + parkingSpots[i].getMake() + " " + parkingSpots[i].getModel() + ", plate #" + parkingSpots[i].getPlate());
 			}
 		}
 	}
