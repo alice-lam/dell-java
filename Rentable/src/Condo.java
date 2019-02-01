@@ -11,11 +11,12 @@ public class Condo implements Rentable{
 	}
 	//to get daily rate, divide weekly rate by 7
 	public Double getDailyRate() {
-		return weeklyRate/7;
+		Double dailyRate = weeklyRate/7;
+		return (double)Math.round(dailyRate*100)/100;
 	}
 	//multiplies the daily rate by the number of days rented
 	public Double getPrice(double days) {
-		// TODO Auto-generated method stub
-		return getDailyRate()*days;
+		Double finalPrice = getDailyRate()*days;
+		return (double)Math.round(finalPrice*100)/100;
 	}
 }

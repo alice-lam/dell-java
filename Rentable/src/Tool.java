@@ -12,10 +12,12 @@ public class Tool implements Rentable{
 	}
 	//multiplies the hourlyrate by 24 to get the daily rate
 	public Double getDailyRate() {
-		return hourlyRate*24;
+		Double dailyRate = hourlyRate*24;
+		return (double)Math.round(dailyRate*100)/100;
 	}
 	//multiplies the daily rate by the number of days rented
 	public Double getPrice(double days) {
-		return getDailyRate()*days;
+		Double finalPrice = getDailyRate()*days;
+		return (double)Math.round(finalPrice*100)/100;
 	}
 }

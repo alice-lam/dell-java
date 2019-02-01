@@ -1,5 +1,6 @@
 import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.Scanner;
 
 public class RentableProgram {
 	public static void main(String[] args) {
@@ -20,8 +21,17 @@ public class RentableProgram {
 		}
 		printObjects(objects);
 		System.out.println("=============");
-		generateFinalPrice(objects,5);
+		generateFinalPrice(objects,getRentalDays());
 	}
+	//user input: get number of days to rent
+	public static double getRentalDays() {
+		System.out.println("How many days would you like to rent for?");
+		Scanner reader = new Scanner(System.in);
+		Double input = reader.nextDouble();
+		reader.close();
+		return input;
+	}
+
 	//generates a random double
 	static Double generateRandomNum() {
 		Random rand = new Random();

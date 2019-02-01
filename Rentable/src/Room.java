@@ -11,10 +11,11 @@ public class Room implements Rentable{
 	}
 	//returns daily rate
 	public Double getDailyRate() {
-		return dailyRate;
+		return (double)Math.round(dailyRate*100)/100;
 	}
 	//multiplies the daily rate by the number of days rented
 	public Double getPrice(double days) {
-		return getDailyRate()*days;
+		Double finalPrice = getDailyRate()*days;
+		return (double)Math.round(finalPrice*100)/100;
 	}
 }
