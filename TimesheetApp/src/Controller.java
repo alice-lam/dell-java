@@ -81,8 +81,7 @@ public class Controller {
         }
 
         int id = Integer.parseInt(actionParts[1]);
-
-		// Your code here
+        timesheet.stop(timesheet.get(id));
     }
 
 	/*
@@ -97,8 +96,7 @@ public class Controller {
         }
 
         int id = Integer.parseInt(actionParts[1]);
-		
-		// Your code here
+		timesheet.delete(timesheet.get(id));
     }
 
 	/*
