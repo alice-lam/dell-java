@@ -50,11 +50,11 @@ public class Controller {
 
             } else if (action.equals("quit")) {
 
-                // Your code here
+                quit = true;
 
             } else if (action.equals("help")) {
 
-            	// Your code here
+            	consoleUtils.printHelp();
 
             } else if(action.length() ==0 ){
             
@@ -66,7 +66,7 @@ public class Controller {
                 
             }
         }
-
+        System.exit(0);
     }
 
 	/*
@@ -114,6 +114,7 @@ public class Controller {
         }
 
 		// Your code here
+        consoleUtils.printList(timesheet.list());
     }
 
 	/*
@@ -125,7 +126,8 @@ public class Controller {
     
         String project = consoleUtils.promptString("Project Name (one word only):");
         String description = consoleUtils.promptString("Task:");
-
-		// Your code here
+        timesheet.add(project, description);
+        consoleUtils.info("Entry added");
+        
     }
 }
