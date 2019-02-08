@@ -82,6 +82,7 @@ public class Controller {
 
         int id = Integer.parseInt(actionParts[1]);
         timesheet.stop(timesheet.get(id));
+        consoleUtils.info("Entry stopped");
     }
 
 	/*
@@ -97,6 +98,7 @@ public class Controller {
 
         int id = Integer.parseInt(actionParts[1]);
 		timesheet.delete(timesheet.get(id));
+		consoleUtils.info("Entry deleted");
     }
 
 	/*
@@ -105,14 +107,26 @@ public class Controller {
 	 * along with any special options (active-only, filter by project name)
 	 */
     public void processListAction(String[] actionParts){
-    
+    	boolean active = false;
+    	String project = null;
+    	
         if(actionParts.length > 3){
             consoleUtils.error("Too many inputs to list command");
             return;
         }
 
 		// Your code here
-        consoleUtils.printList(timesheet.list());
+        for (String s : actionParts) {
+        	if (s.equals("-a")) {
+        		active = true;
+        	}
+        	if (s.equalsIgnoreCase("PROJECT")) {
+        		project = consoleUtils.promptString("Please enter project name:");
+        	}
+        }
+        
+       
+        consoleUtils.printList(timesheet.list(project, active));
     }
 
 	/*
