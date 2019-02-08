@@ -9,8 +9,14 @@ public class Timesheet {
 	}
 
 	public void add(String project, String task) {
-		TimesheetEntry newEntry = new TimesheetEntry(project, task);
-		database.add(newEntry);
+		String[] nameParts = project.split(" ");
+		if (nameParts.length > 1) {
+			throw new IllegalArgumentException();
+		}
+		else {
+			TimesheetEntry newEntry = new TimesheetEntry(project, task);
+			database.add(newEntry);
+		}
 	}
 
 	public void delete(TimesheetEntry entry) {
@@ -22,14 +28,14 @@ public class Timesheet {
 		if (activeOnly || name != null) {
 			for (TimesheetEntry t : database) {
 				if(activeOnly && name!=null) {
-					if(t.getEndTime()==null && t.getProjectName().equals(name)) {
+					if(t.getEndTime()==null && t.getProjectName().equalsIgnoreCase(name)) {
 						temp.add(t);
 					}
 				}
 				else if (activeOnly && t.getEndTime()==null) {
 					temp.add(t);
 				}
-				else if ((name!=null) && t.getProjectName().equals(name)) {
+				else if ((name!=null) && t.getProjectName().equalsIgnoreCase(name)) {
 					temp.add(t);
 				}
 			}
@@ -48,7 +54,7 @@ public class Timesheet {
 		return null;
 	}
 
-	public void stop(TimesheetEntry entry) {
+	public void stop(TimesheetEntry entry) throws TimeSetException {	
 		entry.updateEndTime();
 	}
 }

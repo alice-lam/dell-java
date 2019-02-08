@@ -36,9 +36,12 @@ public class TimesheetEntry {
 		return endTime;
 	}
 	
-	public void updateEndTime() {
+	public void updateEndTime() throws TimeSetException {
 		if (endTime==null) {
 			endTime = LocalDateTime.now();
+		}
+		else {
+			throw new TimeSetException("This entry has already been stopped");
 		}
 	}
 	

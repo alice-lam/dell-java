@@ -61,9 +61,8 @@ public class Controller {
                 // do nothing.
                 
             } else {
-            
                 // Your code here
-                
+            	consoleUtils.info("Invalid Input. Type help if you would like to see options.");
             }
         }
         System.exit(0);
@@ -79,9 +78,19 @@ public class Controller {
             consoleUtils.error("Too many inputs to stop command");
             return;
         }
+        
+        if(actionParts.length == 1){
+            consoleUtils.error("Too few inputs to stop command");
+            return;
+        }
 
         int id = Integer.parseInt(actionParts[1]);
-        timesheet.stop(timesheet.get(id));
+        try {
+			timesheet.stop(timesheet.get(id));
+		} catch (TimeSetException e) {
+			consoleUtils.error("This entry has already been stopped");
+			return;
+		}
         consoleUtils.info("Entry stopped");
     }
 
@@ -116,13 +125,15 @@ public class Controller {
         }
 
 		// Your code here
-        for (String s : actionParts) {
-        	if (s.equals("-a")) {
-        		active = true;
-        	}
-        	if (s.equalsIgnoreCase("PROJECT")) {
-        		project = consoleUtils.promptString("Please enter project name:");
-        	}
+        if(actionParts.length>1) {
+        	for (String s : actionParts) {
+	        	if (s.equals("-a")) {
+	        		active = true;
+	        	}
+	        	else {
+	        		project = s;
+	        	}
+	        }
         }
         
        
@@ -138,7 +149,12 @@ public class Controller {
     
         String project = consoleUtils.promptString("Project Name (one word only):");
         String description = consoleUtils.promptString("Task:");
-        timesheet.add(project, description);
+        try{
+        	timesheet.add(project, description);
+        }catch(Exception e) {
+        	consoleUtils.error("Project Name is more than one word");
+        	return;
+        }
         consoleUtils.info("Entry added");
         
     }
