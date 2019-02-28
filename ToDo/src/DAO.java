@@ -103,14 +103,15 @@ public class DAO {
 	
 	public void list(String status) {
 		String completed;
+		ArrayList<ToDoItem> tempList = new ArrayList<ToDoItem>();
 		
 		try {
 			String query = "select * from projectList ";
 			
-			if(status == "done") {
-				query = query + "where isCompleted = true";
-			}else if(status == "pending") {
-				query = query + "where isCompleted = false";
+			if(status.equals("done")) {
+				query = query + "WHERE isCompleted = 'true'";
+			}else if(status.equals("pending")) {
+				query = query + "WHERE isCompleted = 'false'";
 			}
 			
 			ResultSet rs = statement.executeQuery(query);
@@ -123,7 +124,7 @@ public class DAO {
 				id = rs.getInt("id");
 				description = rs.getString("description");
 				isCompleted = Boolean.parseBoolean(rs.getString("isCompleted"));
-				_list.add(new ToDoItem(id, description, isCompleted));
+				tempList.add(new ToDoItem(id, description, isCompleted));
 			}
 			
 			rs.close();
@@ -132,14 +133,19 @@ public class DAO {
 			e.printStackTrace();
 		}
 		
-		for(int i = 0; i<_list.size(); i++) {
-			if(_list.get(i).isCompleted == true) {
+		if (tempList.size()==0) {
+			System.out.println("No Projects Found.");
+			return;
+		}
+		
+		for(int i = 0; i<tempList.size(); i++) {
+			if(tempList.get(i).isCompleted == true) {
 				completed = "Completed";
 			}
 			else {
 				completed = "Pending";
 			}
-			System.out.println("Project ID: " + _list.get(i).getId() + " | Project Description: " + _list.get(i).getDescription() +" | Status: " + completed);
+			System.out.println("Project ID: " + tempList.get(i).getId() + " | Project Description: " + tempList.get(i).getDescription() +" | Status: " + completed);
 		}
 		return;
 	}
