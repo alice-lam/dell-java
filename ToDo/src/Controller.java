@@ -50,12 +50,15 @@ public class Controller {
 	}
 
 	private void processListAction(String[] actionParts) {
-		if (actionParts[1] == "all") {
+		if (actionParts[1].equals("all")) {
 			_dao.list("all");
-		} else if (actionParts[1] == "done") {
+			System.out.println();
+		} else if (actionParts[1].equals("done")) {
 			_dao.list("done");
-		} else if (actionParts[1] == "pending") {
+			System.out.println();
+		} else if (actionParts[1].equals("pending")) {
 			_dao.list("pending");
+			System.out.println();
 		} else {
 			promptMessage("[Error: Invalid list action]");
 		}
@@ -85,6 +88,7 @@ public class Controller {
 		String description = promptMessageAndGetInput("Item Description: ");
 		_dao.add(description);
 		promptMessage("[Entry added]");
+		System.out.println();
 	}
 
 	private void printHelp() {

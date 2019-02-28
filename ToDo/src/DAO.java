@@ -101,8 +101,9 @@ public class DAO {
 		return foundItem;
 	}
 	
-	public List<ToDoItem> list(String status) {
-
+	public void list(String status) {
+		String completed;
+		
 		try {
 			String query = "select * from projectList ";
 			
@@ -130,8 +131,17 @@ public class DAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return null;
+		
+		for(int i = 0; i<_list.size(); i++) {
+			if(_list.get(i).isCompleted == true) {
+				completed = "Completed";
+			}
+			else {
+				completed = "Pending";
+			}
+			System.out.println("Project ID: " + _list.get(i).getId() + " | Project Description: " + _list.get(i).getDescription() +" | Status: " + completed);
+		}
+		return;
 	}
 
 }
