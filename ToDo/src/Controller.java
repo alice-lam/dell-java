@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Controller {
 
 	private Scanner _scanner = new Scanner(System.in);;
-	private DAO _dao = new DAO();
+	private DAO database = new DAO();
 
 	public void start() {
 		printHelp();
@@ -51,13 +51,13 @@ public class Controller {
 
 	private void processListAction(String[] actionParts) {
 		if (actionParts[1].equals("all")) {
-			_dao.list("all");
+			database.list("all");
 			System.out.println();
 		} else if (actionParts[1].equals("done")) {
-			_dao.list("done");
+			database.list("done");
 			System.out.println();
 		} else if (actionParts[1].equals("pending")) {
-			_dao.list("pending");
+			database.list("pending");
 			System.out.println();
 		} else {
 			promptMessage("[Error: Invalid list action]");
@@ -65,14 +65,15 @@ public class Controller {
 	}
 
 	private void processDeleteAction() {
-		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter an item id:"));
-		_dao.delete(itemId);
-		promptMessage("[item delete]");
+		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter a projectID id to delete:"));
+		database.delete(itemId);
+		promptMessage("[Entry deleted]");
+		System.out.println();
 	}
 
 	private void processMarkDoneAction() {
-		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter an item id:"));
-		_dao.markDone(itemId);
+		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter a projectID id to complete:"));
+		database.markDone(itemId);
 	}
 
 	private String promptMessageAndGetInput(String message) {
@@ -86,7 +87,7 @@ public class Controller {
 
 	private void processAddAction() {
 		String description = promptMessageAndGetInput("Item Description: ");
-		_dao.add(description);
+		database.add(description);
 		promptMessage("[Entry added]");
 		System.out.println();
 	}
