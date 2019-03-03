@@ -22,7 +22,7 @@ public class Controller {
 
 				processDeleteAction();
 
-			} else if (action.equals("mark done")) {
+			} else if (action.equals("mark")) {
 
 				processMarkDoneAction();
 

@@ -31,8 +31,7 @@ public class DAO {
 
 		try {
 			statement.executeUpdate("drop table if exists projectList");
-			statement.executeUpdate(
-					"create table projectList(id integer, description string, isCompleted boolean)");
+			statement.executeUpdate("create table projectList(id integer, description string, isCompleted boolean)");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,9 +39,14 @@ public class DAO {
 	}
 
 	public void markDone(int itemId) {
+		boolean markedSuccess = false;
 		try {
-			String queryString = "UPDATE projectList SET isCompleted = true WHERE id = " + itemId;
-			statement.executeUpdate(queryString);
+			ToDoItem item = getItem(itemId);
+			if (item != null) {
+				String queryString = "UPDATE projectList SET isCompleted = true where id = " + itemId;
+				statement.executeUpdate(queryString);
+				markedSuccess = true;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +56,7 @@ public class DAO {
 	public void add(String description) {
 		try {
 			_id++;
-			String queryString = "insert into projectList values('" + _id + "', '" + description + "', '" + false + "');";
+			String queryString = "insert into projectList values('" + _id + "', '" + description + "', '0');";
 			statement.executeUpdate(queryString);
 
 		} catch (SQLException e) {
@@ -66,9 +70,6 @@ public class DAO {
 		try {
 			ToDoItem item = getItem(itemId);
 			statement.executeUpdate("DELETE FROM projectList WHERE id = " + Integer.toString(itemId));
-			System.out.println("id:        :" + item.id);
-			System.out.println("description:" + item.description);
-			System.out.println("status     :" + item.isCompleted);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,14 +79,14 @@ public class DAO {
 
 	private ToDoItem getItem(int itemId) {
 		ToDoItem foundItem = null;
-		
+
 		try {
 			ResultSet rs = statement.executeQuery("select * from projectList where id = " + Integer.toString(itemId));
 			int id = -1;
 			String name = "";
 			String description = "";
 			boolean isCompleted = false;
-			
+
 			while (rs.next()) {
 				// read the result set
 				id = rs.getInt("id");
@@ -100,20 +101,20 @@ public class DAO {
 		}
 		return foundItem;
 	}
-	
+
 	public void list(String status) {
 		String completed;
 		ArrayList<ToDoItem> tempList = new ArrayList<ToDoItem>();
-		
+
 		try {
 			String query = "select * from projectList ";
-			
-			if(status.equals("done")) {
-				query = query + "WHERE isCompleted = 'true'";
-			}else if(status.equals("pending")) {
-				query = query + "WHERE isCompleted = 'false'";
+
+			if (status.equals("done")) {
+				query = query + "WHERE isCompleted = '1'";
+			} else if (status.equals("pending")) {
+				query = query + "WHERE isCompleted = '0'";
 			}
-			
+
 			ResultSet rs = statement.executeQuery(query);
 			int id = -1;
 			String description = "";
@@ -123,29 +124,29 @@ public class DAO {
 				// read the result set
 				id = rs.getInt("id");
 				description = rs.getString("description");
-				isCompleted = Boolean.parseBoolean(rs.getString("isCompleted"));
+				isCompleted = rs.getBoolean("isCompleted");
 				tempList.add(new ToDoItem(id, description, isCompleted));
 			}
-			
+
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		if (tempList.size()==0) {
+
+		if (tempList.size() == 0) {
 			System.out.println("No Projects Found.");
 			return;
 		}
-		
-		for(int i = 0; i<tempList.size(); i++) {
-			if(tempList.get(i).isCompleted == true) {
+
+		for (int i = 0; i < tempList.size(); i++) {
+			if (tempList.get(i).isCompleted == false) {
+				completed = "Pending";
+			} else {
 				completed = "Completed";
 			}
-			else {
-				completed = "Pending";
-			}
-			System.out.println("Project ID: " + tempList.get(i).getId() + " | Project Description: " + tempList.get(i).getDescription() +" | Status: " + completed);
+			System.out.println("Project ID: " + tempList.get(i).getId() + " | Project Description: "
+					+ tempList.get(i).getDescription() + " | Status: " + completed);
 		}
 		return;
 	}
