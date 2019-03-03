@@ -14,27 +14,29 @@ public class Controller {
 			String action = actionParts[0].trim(); // Primary action
 
 			// Figure out what to do depending on the user's primary action
-			if (action.equals("add")) {
+			if (action.equalsIgnoreCase("add")) {
 
 				processAddAction();
 
-			} else if (action.equals("delete")) {
+			} else if (action.equalsIgnoreCase("delete")) {
 
 				processDeleteAction();
 
-			} else if (action.equals("mark")) {
+			} else if (action.equalsIgnoreCase("mark")) {
 
 				processMarkDoneAction();
 
-			} else if (action.equals("list")) {
+			} else if (action.equalsIgnoreCase("list")) {
 
 				processListAction(actionParts);
 
-			} else if (action.equals("quit")) {
+			} else if (action.equalsIgnoreCase("quit")) {
 
+				promptMessage("Closing System...");
+				database.close();
 				continueAction = false;
 
-			} else if (action.equals("help")) {
+			} else if (action.equalsIgnoreCase("help")) {
 
 				printHelp();
 
@@ -50,13 +52,13 @@ public class Controller {
 	}
 
 	private void processListAction(String[] actionParts) {
-		if (actionParts[1].equals("all")) {
+		if (actionParts[1].equalsIgnoreCase("all")) {
 			database.list("all");
 			System.out.println();
-		} else if (actionParts[1].equals("done")) {
+		} else if (actionParts[1].equalsIgnoreCase("done")) {
 			database.list("done");
 			System.out.println();
-		} else if (actionParts[1].equals("pending")) {
+		} else if (actionParts[1].equalsIgnoreCase("pending")) {
 			database.list("pending");
 			System.out.println();
 		} else {
@@ -64,6 +66,29 @@ public class Controller {
 		}
 	}
 
+
+	private void promptMessage(String message) {
+		System.out.println(message);
+	}
+	
+	private String promptMessageAndGetInput(String message) {
+		System.out.println(message);
+		return _scanner.nextLine();
+	}
+	
+	private void printHelp() {
+		System.out.println("Available functions: ");
+		System.out.println("  add: 			to add an item");
+		System.out.println("  delete: 		to delete an item");
+		System.out.println("  mark done: 	        to mark item as completed");
+		System.out.println("  list pending:         to list the pending items");
+		System.out.println("  list done: 	        to list the done items");
+		System.out.println("  list all: 	        to list all items");
+		System.out.println("  help: 		display available functions");
+		System.out.println("  quit: 		to quit");
+		System.out.println();
+	}
+	
 	private void processDeleteAction() {
 		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter a projectID id to delete:"));
 		database.delete(itemId);
@@ -74,15 +99,8 @@ public class Controller {
 	private void processMarkDoneAction() {
 		int itemId = Integer.parseInt(promptMessageAndGetInput("Enter a projectID id to complete:"));
 		database.markDone(itemId);
-	}
-
-	private String promptMessageAndGetInput(String message) {
-		System.out.println(message);
-		return _scanner.nextLine();
-	}
-
-	private void promptMessage(String message) {
-		System.out.println(message);
+		promptMessage("[Entry marked as completed]");
+		System.out.println();
 	}
 
 	private void processAddAction() {
@@ -92,16 +110,4 @@ public class Controller {
 		System.out.println();
 	}
 
-	private void printHelp() {
-		System.out.println("Available functions: ");
-		System.out.println("  add: 			to add an item");
-		System.out.println("  delete: 		to delete an item");
-		System.out.println("  mark done: 	the item to mark as done");
-		System.out.println("  list pending: to list the pending items");
-		System.out.println("  list done: 	to list the done items");
-		System.out.println("  list all: 	to list all items");
-		System.out.println("  help: 		display available functions");
-		System.out.println("  quit: 		to quit");
-		System.out.println();
-	}
 }

@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DAO {
-	private List<ToDoItem> _list;
 	Statement statement = null;
 	private int _id = 0;
-
+	Connection connection = null;
+	
 	public DAO() {
-		_list = new ArrayList<>();
-		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection("jdbc:sqlite:projectList.db");
 			statement = connection.createStatement();
@@ -69,7 +67,9 @@ public class DAO {
 	public void delete(int itemId) {
 		try {
 			ToDoItem item = getItem(itemId);
-			statement.executeUpdate("DELETE FROM projectList WHERE id = " + Integer.toString(itemId));
+			if(item != null) {
+				statement.executeUpdate("DELETE FROM projectList WHERE id = " + Integer.toString(itemId));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,12 +78,11 @@ public class DAO {
 	}
 
 	private ToDoItem getItem(int itemId) {
-		ToDoItem foundItem = null;
+		ToDoItem projectItem = null;
 
 		try {
 			ResultSet rs = statement.executeQuery("select * from projectList where id = " + Integer.toString(itemId));
 			int id = -1;
-			String name = "";
 			String description = "";
 			boolean isCompleted = false;
 
@@ -91,15 +90,15 @@ public class DAO {
 				// read the result set
 				id = rs.getInt("id");
 				description = rs.getString("description");
-				isCompleted = Boolean.parseBoolean(rs.getString("isCompleted"));
-				foundItem = new ToDoItem(id, description, isCompleted);
+				isCompleted = rs.getBoolean("isCompleted");
+				projectItem = new ToDoItem(id, description, isCompleted);
 			}
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return foundItem;
+		return projectItem;
 	}
 
 	public void list(String status) {
@@ -150,5 +149,15 @@ public class DAO {
 		}
 		return;
 	}
-
+	
+	public void close() {
+		if (connection!=null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
